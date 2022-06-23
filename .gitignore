@@ -7,5 +7,6 @@ node_modules
 .env
 dist
 
+*.admin.json
 database.rules.json
 *.drawio.*
