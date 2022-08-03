@@ -2,5 +2,6 @@
 export type PLAYER_INFO = {
   userId: string;
   name: string;
-  state: string;
+  state: 'standby' | 'matching' | 'playing';
+  roomId: string;
 };
