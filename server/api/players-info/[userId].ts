@@ -35,4 +35,6 @@ export default defineEventHandler((event) => {
 
     playerRef.set(playerInfo); // プレイヤー情報を追加
   });
+
+  return null;
 });

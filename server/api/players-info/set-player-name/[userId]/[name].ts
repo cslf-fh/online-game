@@ -22,4 +22,6 @@ export default defineEventHandler((event) => {
   playerRef.update({
     name: playerName,
   });
+
+  return null;
 });
