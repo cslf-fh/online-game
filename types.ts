@@ -11,6 +11,7 @@ export type MATCHING_ROOM = {
   roomId: string;
   player1: MATCHING_PLAYER_INFO;
   player2: MATCHING_PLAYER_INFO;
+  move: number;
   turn: 'player1' | 'player2';
   matchState: 'matching' | 'playing';
   boardState: BOARD_STATE;
