@@ -12,8 +12,9 @@ export type MATCHING_ROOM = {
   player1: MATCHING_PLAYER_INFO;
   player2: MATCHING_PLAYER_INFO;
   move: number;
-  turn: 'player1' | 'player2';
-  matchState: 'matching' | 'playing';
+  turn: TURN;
+  matchState: MATCH_STATE;
+  winner: TURN | 'nobody';
   boardState: BOARD_STATE;
 };
 
@@ -23,11 +24,15 @@ export type MATCHING_PLAYER_INFO = {
   state: 'connected' | 'disconnected';
 };
 
-export type TILE_STATE = {
+export type TURN = 'player1' | 'player2';
+
+export type MATCH_STATE = 'matching' | 'playing' | 'finished';
+
+export type TILE = {
   state: -1 | 0 | 1;
   move: number;
 };
 
-export type BOARD_STATE_ROW = [TILE_STATE, TILE_STATE, TILE_STATE];
+export type BOARD_STATE_ROW = [TILE, TILE, TILE];
 
 export type BOARD_STATE = [BOARD_STATE_ROW, BOARD_STATE_ROW, BOARD_STATE_ROW];

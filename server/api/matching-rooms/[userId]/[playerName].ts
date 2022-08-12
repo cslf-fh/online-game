@@ -86,9 +86,10 @@ export default defineEventHandler((event) => {
             name: playerName,
             state: 'connected',
           },
+          matchState: 'playing',
           move: matchingRoom.move,
           turn: matchingRoom.turn,
-          matchState: 'playing',
+          winner: 'nobody',
           boardState: matchingRoom.boardState,
         };
         const player1Info: PLAYER_INFO = {
@@ -124,9 +125,10 @@ export default defineEventHandler((event) => {
             name: '',
             state: 'disconnected',
           },
+          matchState: 'matching',
           move: 0,
           turn: turn,
-          matchState: 'matching',
+          winner: 'nobody',
           boardState: initBoard,
         };
         const player1Info: PLAYER_INFO = {
