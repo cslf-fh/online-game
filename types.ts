@@ -15,7 +15,7 @@ export type MATCHING_ROOM = {
   move: number;
   turn: TURN;
   matchState: MATCH_STATE;
-  winner: TURN | 'nobody';
+  winner?: TURN;
   boardState: BOARD_STATE;
 };
 

@@ -90,7 +90,6 @@ export default defineEventHandler((event) => {
           firstMove: matchingRoom.firstMove,
           move: matchingRoom.move,
           turn: matchingRoom.turn,
-          winner: 'nobody',
           boardState: matchingRoom.boardState,
         };
         const player1Info: PLAYER_INFO = {
@@ -130,7 +129,6 @@ export default defineEventHandler((event) => {
           firstMove: turn,
           move: 0,
           turn: turn,
-          winner: 'nobody',
           boardState: initBoard,
         };
         const player1Info: PLAYER_INFO = {
