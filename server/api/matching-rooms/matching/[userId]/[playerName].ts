@@ -1,7 +1,13 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import { getTime } from 'date-fns';
-import type { MATCHING_ROOM, BOARD_STATE, PLAYER_INFO } from '~~/types';
+import type {
+  MATCHING_ROOM,
+  BOARD_STATE,
+  BOARD_STATE_ROW,
+  TILE,
+  PLAYER_INFO,
+} from '~~/types';
 
 const apps = getApps();
 
@@ -13,23 +19,9 @@ if (!apps.length) {
 }
 
 // 初期盤面
-const initBoard: BOARD_STATE = [
-  [
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-  ],
-  [
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-  ],
-  [
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-    { state: 0, move: 0 },
-  ],
-];
+const tile: TILE = { state: 0, move: 0 };
+const boardRow: BOARD_STATE_ROW = [tile, tile, tile];
+const initBoard: BOARD_STATE = [boardRow, boardRow, boardRow];
 
 export default defineEventHandler((event) => {
   console.log(
@@ -55,9 +47,6 @@ export default defineEventHandler((event) => {
 
     matchingRoomsRef.once('value', (snapshot) => {
       const matchingRooms = snapshot.val(); // マッチングルームのリストを取得
-      const matchingRoomExists = userId in matchingRooms; // ルーム作成済みかどうか
-
-      if (matchingRoomExists) return; // ルーム作成済みなら何もしない
 
       const sortedRooms: MATCHING_ROOM[] = Object.values(matchingRooms); // ソートしやすいように、プロパティの値を配列に
       sortedRooms.sort((a, b) => a.makeRoomAt - b.makeRoomAt); // ルーム作成日時でソート
@@ -69,8 +58,13 @@ export default defineEventHandler((event) => {
         }
       );
 
-      if (matchingRoom) {
-        // マッチング可能なルームがある場合
+      const matchingTimeout = 3 * 60 * 1000; // ルーム作成から一定時間経過した場合、マッチングをパスするための時間
+
+      if (
+        matchingRoom &&
+        makeRoomAt - matchingRoom.makeRoomAt < matchingTimeout
+      ) {
+        // マッチング可能なルームがあり、ルーム作成から一定時間以内の場合
         const matchingRoomRef = db.ref(
           `${matchingRoomsPath}/${matchingRoom.roomId}`
         );
