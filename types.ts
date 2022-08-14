@@ -2,9 +2,11 @@
 export type PLAYER_INFO = {
   userId: string;
   name: string;
-  state: 'standby' | 'matching' | 'playing';
+  state: PLAYER_INFO_STATE;
   roomId: string;
 };
+
+export type PLAYER_INFO_STATE = 'standby' | 'matching' | 'playing';
 
 export type MATCHING_ROOM = {
   makeRoomAt: number;
