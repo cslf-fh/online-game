@@ -11,11 +11,8 @@ const { countStones, countMove, isControllable } = storeToRefs(boardStore);
 boardStore.initBoardStore(roomId); // ボードストアを初期化
 
 watch(boardStore.$state, () => {
-  if (
-    boardStore.$state.playableState === 'watcher' ||
-    boardStore.$state.roomInfo.matchState === 'finished'
-  ) {
-    // 観戦、またはゲーム終了時
+  if (boardStore.$state.roomInfo.matchState === 'finished') {
+    // ゲーム終了時
     boardStore.updatePlayerInfo(); // プレイヤー情報を更新
   }
 });
