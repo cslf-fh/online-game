@@ -12,11 +12,24 @@ const { narrowedData: playerInfo } = getData<PLAYER_INFO>(
 );
 
 // マッチングのリクエスト
-await useFetch(
-  `/api/matching-rooms/${$userInfo.value.uid}/${encodeURI(
-    playerInfo.value.name
-  )}`
-);
+const matchingReq = async () => {
+  const { refresh } = await useFetch(
+    `/api/matching-rooms/matching/${$userInfo.value.uid}/${encodeURI(
+      playerInfo.value.name
+    )}`
+  );
+  refresh();
+};
+matchingReq();
+
+// マッチングキャンセルのリクエスト
+const cancelReq = async () => {
+  const { refresh } = await useFetch(
+    `/api/matching-rooms/cancel/${$userInfo.value.uid}`
+  );
+  refresh();
+  router.push({ path: '/lobby' });
+};
 
 watch(playerInfo, () => {
   if (playerInfo.value.state === 'playing') {
@@ -28,6 +41,7 @@ watch(playerInfo, () => {
 <template>
   <div>
     <p>matching</p>
+    <v-btn @click="cancelReq">cancel</v-btn>
     <p v-if="$userInfo">{{ $userInfo.uid }}</p>
     <p v-if="playerInfo">{{ playerInfo }}</p>
   </div>
