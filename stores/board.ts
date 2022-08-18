@@ -1,8 +1,16 @@
 import { defineStore } from 'pinia';
 import { getDatabase, ref, onValue } from 'firebase/database';
-import type { MATCHING_ROOM, BOARD_STATE, TURN, TILE } from '~~/types';
-
-type PLAYABLE_STATE = 'player1' | 'player2' | 'watcher';
+import type {
+  MATCHING_ROOM,
+  TURN,
+  TILE,
+  PLAYABLE_STATE,
+  COUNT_STONES,
+  DISPLAY_ITEMS,
+  DISPLAY_ITEM,
+  MOVE,
+  STONE,
+} from '~~/types';
 
 // 盤面が勝利条件を満たすかどうかをチェックする配列
 const winPatterns = [
@@ -42,7 +50,7 @@ export const useBoardStore = defineStore({
 
     // マスに置かれた石
     tileState(state) {
-      return (rowIndex: number, colIndex: number): '○' | '×' | null => {
+      return (rowIndex: number, colIndex: number): STONE | null => {
         const tile = state.roomInfo.boardState[rowIndex][colIndex];
 
         switch (tile.state) {
@@ -77,8 +85,8 @@ export const useBoardStore = defineStore({
 
     // 盤面に置かれた石の数
     countStones(state) {
-      return (player: TURN): 0 | 1 | 2 | 3 => {
-        let stones: 0 | 1 | 2 | 3 = 0;
+      return (player: TURN): COUNT_STONES => {
+        let stones: COUNT_STONES = 0;
         const tileState = player === state.roomInfo.firstMove ? 1 : -1;
 
         state.roomInfo.boardState.forEach((rowElm) => {
@@ -101,6 +109,11 @@ export const useBoardStore = defineStore({
         default:
           return null;
       }
+    },
+
+    // 現在の手番
+    currentTurn(state) {
+      return state.roomInfo.firstMove === state.roomInfo.turn ? '先手' : '後手';
     },
 
     // 勝利条件を満たしているかどうか
@@ -128,6 +141,71 @@ export const useBoardStore = defineStore({
       });
 
       return winFlag;
+    },
+
+    // 盤面の情報として表示するのに必要なものたち
+    displayItems(state): DISPLAY_ITEMS {
+      // 観戦者の場合
+      if (state.playableState === 'watcher') {
+        const enemyTurn: TURN =
+          state.roomInfo.firstMove === 'player1' ? 'player2' : 'player1';
+
+        // 先手番
+        const player: DISPLAY_ITEM = {
+          turn: state.roomInfo.firstMove,
+          name: state.roomInfo[state.roomInfo.firstMove].name,
+          move: '先手',
+          stone: '○',
+        };
+        // 後手番
+        const enemy: DISPLAY_ITEM = {
+          turn: enemyTurn,
+          name: state.roomInfo[enemyTurn].name,
+          move: '後手',
+          stone: '×',
+        };
+
+        return { player: player, enemy: enemy };
+      }
+
+      const enemyTurn: TURN =
+        state.playableState === 'player1' ? 'player2' : 'player1'; // 対戦相手が1Pか2Pか
+      const playerMove: MOVE =
+        state.roomInfo.firstMove === state.playableState ? '先手' : '後手'; // プレイヤーの手番
+      const enemyMove: MOVE = playerMove === '先手' ? '後手' : '先手'; // 対戦相手の手番
+      const playerStone: STONE =
+        state.playableState === state.roomInfo.firstMove ? '○' : '×'; // プレイヤーの石
+      const enemyStone: STONE = playerStone === '○' ? '×' : '○'; // 対戦相手の石
+
+      // プレイヤー
+      const player: DISPLAY_ITEM = {
+        turn: state.playableState, // 1Pか2Pか
+        name: state.roomInfo[state.playableState].name, // プレイヤー名
+        move: playerMove, // 先後
+        stone: playerStone, // 石の種類
+      };
+      // 対戦相手
+      const enemy: DISPLAY_ITEM = {
+        turn: enemyTurn,
+        name: state.roomInfo[enemyTurn].name,
+        move: enemyMove,
+        stone: enemyStone,
+      };
+
+      return { player: player, enemy: enemy };
+    },
+
+    // 勝者の手番+プレイヤー名
+    winnerName(state): string | null {
+      const winnerMoveState =
+        state.roomInfo.firstMove === state.roomInfo.winner ? '先手' : '後手'; // 勝者の手番
+
+      if (state.roomInfo.winner)
+        return `${winnerMoveState}${
+          state.roomInfo[state.roomInfo.winner].name
+        }`;
+
+      return null;
     },
   },
 
