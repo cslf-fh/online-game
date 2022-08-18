@@ -39,3 +39,24 @@ export type TILE = {
 export type BOARD_STATE_ROW = [TILE, TILE, TILE];
 
 export type BOARD_STATE = [BOARD_STATE_ROW, BOARD_STATE_ROW, BOARD_STATE_ROW];
+
+// ボードストア
+export type PLAYABLE_STATE = TURN | 'watcher';
+
+export type COUNT_STONES = 0 | 1 | 2 | 3;
+
+export type DISPLAY_ITEMS = {
+  player: DISPLAY_ITEM;
+  enemy: DISPLAY_ITEM;
+};
+
+export type DISPLAY_ITEM = {
+  turn: TURN;
+  name: string;
+  move: MOVE;
+  stone: STONE;
+};
+
+export type MOVE = '先手' | '後手';
+
+export type STONE = '○' | '×';
