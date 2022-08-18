@@ -5,35 +5,43 @@ import type { MATCHING_ROOM } from '~~/types';
 
 type PROPS = {
   roomInfo: MATCHING_ROOM;
+  tileSize: number;
 };
-const { roomInfo } = defineProps<PROPS>();
+const { roomInfo, tileSize } = defineProps<PROPS>();
 
 const boardStore = useBoardStore();
 const { tileState, removedTile } = storeToRefs(boardStore);
 </script>
 
 <template>
-  <div class="d-flex justify-center">
-    <v-sheet border width="75vw" height="75vw">
+  <div class="d-flex justify-center" :style="{ 'user-select': 'none' }">
+    <v-sheet
+      border
+      :width="`${tileSize * 3}vw`"
+      :height="`${tileSize * 3}vw`"
+      :max-width="`${tileSize * 6 * 3}px`"
+      :max-height="`${tileSize * 6 * 3}px`"
+    >
       <div
         v-for="(row, rowIndex) in roomInfo.boardState"
-        :key="'foo'"
+        :key="row[rowIndex].move"
         class="d-flex justify-center"
       >
-        <div v-for="(tile, colIndex) in row" :key="'bar'">
+        <div v-for="(tile, colIndex) in row" :key="tile.move">
           <v-sheet
             border
-            width="25vw"
-            height="25vw"
+            :width="`${tileSize}vw`"
+            :height="`${tileSize}vw`"
+            :max-width="`${tileSize * 6}px`"
+            :max-height="`${tileSize * 6}px`"
             @click="
               boardStore.putStone(roomInfo.turn, tile, rowIndex, colIndex),
                 boardStore.removeStone(rowIndex, colIndex)
             "
-            class="d-flex flex-column justify-center align-center"
+            class="d-flex flex-column justify-center align-center text-h2"
+            :class="removedTile(rowIndex, colIndex) ? 'bg-grey' : null"
           >
             <p>{{ tileState(rowIndex, colIndex) }}</p>
-            <p>{{ removedTile(rowIndex, colIndex) }}</p>
-            <p>{{ rowIndex }}/{{ colIndex }}</p>
           </v-sheet>
         </div>
       </div>

@@ -5,7 +5,7 @@ const { $userInfo } = useNuxtApp();
 const routeToLobby = () => {
   if ($userInfo.value.uid === undefined) return; // サインインしていない場合は何もしない
 
-  router.push({ path: `/lobby` });
+  router.push({ path: '/lobby' });
 };
 </script>
 
@@ -13,14 +13,26 @@ const routeToLobby = () => {
   <div>
     <v-hover v-slot="{ isHovering, props }">
       <v-card
-        variant="plain"
+        flat
         width="100vw"
         height="100vh"
-        class="d-flex justify-center align-center"
+        class="d-flex flex-column align-center text-high-emphasis"
         v-bind="props"
+        :style="{
+          'justify-content': 'space-evenly',
+        }"
         @click="routeToLobby"
       >
-        <v-card-text :class="[`text-h4`, !isHovering ? `fade-in-out` : null]">
+        <v-card-title class="text-h2">
+          3目
+          <span class="text-body-1">(しかない)</span>
+          並べ
+        </v-card-title>
+
+        <v-card-text
+          class="text-h5"
+          :class="!isHovering ? `fade-in-out` : null"
+        >
           Touch to start
         </v-card-text>
       </v-card>

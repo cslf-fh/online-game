@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify';
+
 const { $userInfo } = useNuxtApp();
+const { mdAndUp } = useDisplay();
 
 const playerName = ref('');
-const dialog = ref(false);
+const showDialog = ref(false);
 const form = ref();
 const nameRules = [
-  (v: string) => !!v || 'Name is required',
-  (v: string) => v.length <= 10 || 'Name must be less than 10 characters',
+  (v: string) => v.length <= 10 || '10字以内で入力してください',
 ];
 
 const setPlayerName = async () => {
-  //正規表現(playerName.value);
   const validate = await form.value.validate(); // バリデーション
 
   if (!validate.valid) return; // バリデーションが通らなければ何もしない
@@ -22,33 +23,45 @@ const setPlayerName = async () => {
       `${playerName.value}`
     )}`
   );
-  dialog.value = false; // ダイアログを閉じる
+  showDialog.value = false; // ダイアログを閉じる
 };
 </script>
 
 <template>
-  <v-btn>
-    Set player name
-    <v-dialog v-model="dialog" activator="parent">
-      <v-card width="50vw">
-        <v-card-title>Set player name</v-card-title>
+  <v-btn
+    color="primary"
+    prepend-icon="mdi-script-text-outline"
+    block
+    size="x-large"
+  >
+    プレイヤー名を入力
+    <v-dialog v-model="showDialog" activator="parent">
+      <v-card width="50vw" :max-width="mdAndUp ? '560px' : '280px'">
+        <v-card-title>プレイヤー名を入力</v-card-title>
 
-        <v-card-text>
-          <v-form ref="form">
+        <v-form ref="form">
+          <v-card-text class="pb-0">
             <v-text-field
               v-model="playerName"
               :rules="nameRules"
               counter="10"
               variant="outlined"
-              label="Player name"
+              label="プレイヤー名"
               placeholder="名無しさん"
             ></v-text-field>
+          </v-card-text>
 
-            <div class="d-flex justify-center">
-              <v-btn @click="setPlayerName">submit</v-btn>
-            </div>
-          </v-form>
-        </v-card-text>
+          <v-card-actions>
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-gamepad-circle-down"
+              block
+              @click="setPlayerName"
+            >
+              決定
+            </v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </v-btn>

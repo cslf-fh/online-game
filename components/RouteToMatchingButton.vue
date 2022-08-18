@@ -5,6 +5,7 @@ const router = useRouter();
 const { $userInfo } = useNuxtApp();
 const { getData } = useDatabase();
 
+// プレイヤー情報を取得
 const { narrowedData: playerInfo } = getData<PLAYER_INFO>(
   'players-info',
   $userInfo.value.uid
@@ -20,14 +21,37 @@ const routeToRoom = () => {
 
 <template>
   <div v-if="playerInfo">
-    <v-btn v-if="playerInfo.state === 'standby'" @click="routeToMatching">
-      standby
+    <v-btn
+      v-if="playerInfo.state === 'standby' || playerInfo.state === 'matching'"
+      color="primary"
+      prepend-icon="mdi-gamepad-variant-outline"
+      block
+      size="x-large"
+      @click="routeToMatching"
+    >
+      対戦
     </v-btn>
-    <v-btn v-else-if="playerInfo.state === 'matching'" @click="routeToMatching">
-      matching
+
+    <v-btn
+      v-else-if="playerInfo.state === 'playing'"
+      color="primary"
+      prepend-icon="mdi-arrow-right-bold-outline"
+      block
+      size="x-large"
+      @click="routeToRoom"
+    >
+      ルームへ移動
     </v-btn>
-    <v-btn v-else-if="playerInfo.state === 'playing'" @click="routeToRoom">
-      playing
+  </div>
+
+  <div v-else>
+    <v-btn
+      color="primary"
+      prepend-icon="mdi-gamepad-variant-outline"
+      block
+      size="x-large"
+    >
+      対戦
     </v-btn>
   </div>
 </template>
