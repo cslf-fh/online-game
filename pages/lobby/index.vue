@@ -33,10 +33,7 @@ await useFetch(`/api/players-info/${$userInfo.value.uid}`); // プレイヤー�
     </v-card>
 
     <v-bottom-navigation :grow="smAndUp">
-      <v-btn
-        prepend-icon="mdi-help-circle-outline"
-        to="/room/000-test-room"
-      ></v-btn>
+      <HowToPlayDialog />
 
       <v-btn prepend-icon="mdi-share"></v-btn>
 
