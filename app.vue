@@ -47,4 +47,9 @@ body {
   }
   font-family: $body-font-family;
 }
+
+.v-overlay__content {
+  max-width: 80vw !important;
+  max-height: 100vh !important;
+}
 </style>
