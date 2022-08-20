@@ -35,7 +35,7 @@ await useFetch(`/api/players-info/${$userInfo.value.uid}`); // プレイヤー�
     <v-bottom-navigation :grow="smAndUp">
       <HowToPlayDialog />
 
-      <v-btn prepend-icon="mdi-share"></v-btn>
+      <ShareButtonsDialog />
 
       <v-btn :prepend-icon="themeIcon" @click="toggleTheme"></v-btn>
     </v-bottom-navigation>
