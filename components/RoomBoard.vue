@@ -24,10 +24,13 @@ const { tileState, removedTile } = storeToRefs(boardStore);
     >
       <div
         v-for="(row, rowIndex) in roomInfo.boardState"
-        :key="row[rowIndex].move"
+        :key="`row${rowIndex}`"
         class="d-flex justify-center"
       >
-        <div v-for="(tile, colIndex) in row" :key="tile.move">
+        <div
+          v-for="(tile, colIndex) in row"
+          :key="`tile${rowIndex}${colIndex}`"
+        >
           <v-sheet
             border
             :width="`${tileSize}vw`"
