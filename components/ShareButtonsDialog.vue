@@ -1,23 +1,8 @@
 <script setup lang="ts">
-const baseUrl = 'https://qiita.com/cslf-fh';
-const facebookBaseUrl = 'https://www.facebook.com/sharer/sharer.php';
-const twitterBaseUrl = 'https://twitter.com/intent/tweet';
-const lineBaseUrl = 'https://social-plugins.line.me/lineit/share';
+const { facebook, twitter, line } = useShareUrl();
+const sharedUrl = 'https://sanmoku-shikanai-narabe.netlify.app/';
 const showDialog = ref(false);
 const size = 64;
-
-const shareFacebook = () => {
-  const shareUrl = `${facebookBaseUrl}?u=${baseUrl}`;
-  window.open(shareUrl);
-};
-const shareTwitter = () => {
-  const shareUrl = `${twitterBaseUrl}?url=${baseUrl}`;
-  window.open(shareUrl);
-};
-const shareLine = () => {
-  const shareUrl = `${lineBaseUrl}?url=${baseUrl}`;
-  window.open(shareUrl);
-};
 </script>
 
 <template>
@@ -29,7 +14,11 @@ const shareLine = () => {
         <v-card-text class="text-center">
           <v-row no-gutters>
             <v-col cols="4" class="d-flex flex-column align-center">
-              <v-avatar :size="size" class="is-hover" @click="shareFacebook">
+              <v-avatar
+                :size="size"
+                class="is-hover"
+                @click="facebook(sharedUrl)"
+              >
                 <v-img src="/images/facebook.png"></v-img>
               </v-avatar>
 
@@ -37,7 +26,11 @@ const shareLine = () => {
             </v-col>
 
             <v-col cols="4" class="d-flex flex-column align-center">
-              <v-avatar :size="size" class="is-hover" @click="shareTwitter">
+              <v-avatar
+                :size="size"
+                class="is-hover"
+                @click="twitter(sharedUrl)"
+              >
                 <v-img src="/images/twitter.png"></v-img>
               </v-avatar>
 
@@ -45,7 +38,7 @@ const shareLine = () => {
             </v-col>
 
             <v-col cols="4" class="d-flex flex-column align-center">
-              <v-avatar :size="size" class="is-hover" @click="shareLine">
+              <v-avatar :size="size" class="is-hover" @click="line(sharedUrl)">
                 <v-img src="/images/line.png"></v-img>
               </v-avatar>
 
