@@ -207,6 +207,35 @@ export const useBoardStore = defineStore({
 
       return null;
     },
+
+    // ツイッターで結果をシェアする時のテキスト
+    sharedText(state): string {
+      const firstMovePlayer = state.roomInfo[state.roomInfo.firstMove].name;
+      const secondMove =
+        state.roomInfo.firstMove === 'player1' ? 'player2' : 'player1';
+      const secondMovePlayer = state.roomInfo[secondMove].name;
+      const match = `${firstMovePlayer} vs ${secondMovePlayer}`;
+      const matchResults = `${this.countMove}、${this.winnerName}の勝ち`;
+      const boardState = state.roomInfo.boardState
+        .map((row) => {
+          return row
+            .map((col) => {
+              switch (col.state) {
+                case 1:
+                  return '⭕';
+                case -1:
+                  return '❌';
+                default:
+                  return '⬛';
+              }
+            })
+            .join('');
+        })
+        .join('%0a');
+      const sharedText = `${match}%0a${matchResults}%0a${boardState}`;
+
+      return sharedText;
+    },
   },
 
   actions: {

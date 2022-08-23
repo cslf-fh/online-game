@@ -8,8 +8,11 @@ type PROPS = {
 const { showResults } = defineProps<PROPS>();
 
 const router = useRouter();
+const { twitter } = useShareUrl();
 const boardStore = useBoardStore();
-const { countMove, displayItems, winnerName } = storeToRefs(boardStore);
+const { countMove, displayItems, winnerName, sharedText } =
+  storeToRefs(boardStore);
+const sharedUrl = 'https://sanmoku-shikanai-narabe.netlify.app/';
 
 const routeToLobby = () => {
   router.push({ path: '/lobby' });
@@ -63,7 +66,11 @@ const routeToLobby = () => {
               ロビーへ戻る
             </v-btn>
 
-            <v-btn color="primary" prepend-icon="mdi-twitter">
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-twitter"
+              @click="twitter(sharedUrl, sharedText)"
+            >
               結果をシェア
             </v-btn>
           </v-card-actions>
