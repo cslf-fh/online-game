@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { PLAYER_INFO } from '@/types';
 
+const route = useRoute();
 const router = useRouter();
 const { $userInfo } = useNuxtApp();
+const { pageTitle } = usePageTitle();
 const { getData } = useDatabase();
 const { showCancelAlert, startCountdown, stopCountdown, resetCountdown } =
   useCountdown();
@@ -48,6 +50,8 @@ watch(showCancelAlert, () => {
     cancelReq(false); // カウントダウンが0になったらマッチングをキャンセル
   }
 });
+
+useHead({ title: pageTitle(route.path) });
 </script>
 
 <template>

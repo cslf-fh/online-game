@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
 
+const route = useRoute();
 const { $userInfo } = useNuxtApp();
 const { themeIcon, toggleTheme } = useTheme();
+const { pageTitle } = usePageTitle();
 const { smAndUp } = useDisplay();
 
 await useFetch(`/api/players-info/${$userInfo.value.uid}`); // プレイヤー情報を追加
+
+useHead({ title: pageTitle(route.path) });
 </script>
 
 <template>

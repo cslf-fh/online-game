@@ -4,7 +4,7 @@ import { useBoardStore } from '~~/stores/board';
 
 const route = useRoute();
 const roomId = route.params.roomId as string;
-
+const { pageTitle } = usePageTitle();
 const boardStore = useBoardStore();
 const { countStones, displayItems } = storeToRefs(boardStore);
 const tileSize = 25; // ゲームタイルのサイズ(vw)
@@ -19,6 +19,8 @@ watch(boardStore.$state, () => {
     boardStore.updatePlayerInfo(); // プレイヤー情報を更新
   }
 });
+
+useHead({ title: pageTitle(route.path) });
 </script>
 
 <template>

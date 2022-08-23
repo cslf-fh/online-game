@@ -1,12 +1,16 @@
 <script setup lang="ts">
+const route = useRoute();
 const router = useRouter();
 const { $userInfo } = useNuxtApp();
+const { pageTitle } = usePageTitle();
 
 const routeToLobby = () => {
   if ($userInfo.value.uid === undefined) return; // サインインしていない場合は何もしない
 
   router.push({ path: '/lobby' });
 };
+
+useHead({ title: pageTitle(route.path) });
 </script>
 
 <template>
