@@ -1,7 +1,7 @@
 const usePageTile = () => {
-  const title = '3目(しかない)並べ';
+  const title = useState('title', () => '3目(しかない)並べ');
   const separator = ' | ';
-  const titleWithSeparator = `${separator}${title}`;
+  const titleWithSeparator = `${separator}${title.value}`;
 
   const pageTitle = (path: string) => {
     const spritPath = path.split('/');
@@ -18,7 +18,7 @@ const usePageTile = () => {
     }
   };
 
-  return { pageTitle };
+  return { title: readonly(title), pageTitle };
 };
 
 export default usePageTile;
