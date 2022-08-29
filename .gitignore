@@ -8,5 +8,6 @@ node_modules
 dist
 
 *.admin.json
+.firebase
 database.rules.json
 *.drawio.*
