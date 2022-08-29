@@ -27,6 +27,9 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
+  nitro: {
+    preset: 'firebase',
+  },
   runtimeConfig: {
     public: {
       apiKey: API_KEY,
