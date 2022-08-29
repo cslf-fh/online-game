@@ -1,21 +1,22 @@
 <script setup lang="ts">
 const { theme } = useTheme();
-const { title } = usePageTitle();
-const description = `理由(ワケ)あって石が3目しかない3目並べです。それ以外は普通の3目並べです。`;
-const url = 'https://sanmoku-shikanai-narabe.netlify.app';
+const { title, description, url } = usePageTitle();
 
 useHead({
   meta: [
-    { name: 'description', content: description },
+    { name: 'description', content: description.value },
     // OGPの設定
-    { property: 'og:title', content: title },
-    { property: 'og:site_name', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:image', content: `${url}/icons/icon-512x512.png` },
-    { property: 'og:url', content: url },
+    { property: 'og:title', content: title.value },
+    { property: 'og:site_name', content: title.value },
+    { property: 'og:description', content: description.value },
+    { property: 'og:image', content: `${url.value}/icons/icon-512x512.png` },
+    { property: 'og:url', content: url.value },
     { property: 'og:type', content: 'website' },
     { property: 'og:locale', content: 'ja_JP' },
-    { property: 'twitter:image', content: `${url}/icons/icon-512x512.png` },
+    {
+      property: 'twitter:image',
+      content: `${url.value}/icons/icon-512x512.png`,
+    },
     { property: 'twitter:card', content: 'summary' },
   ],
   link: [

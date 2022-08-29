@@ -9,10 +9,10 @@ const { showResults } = defineProps<PROPS>();
 
 const router = useRouter();
 const { twitter } = useShareUrl();
+const { url: sharedUrl } = usePageTitle();
 const boardStore = useBoardStore();
 const { countMove, displayItems, winnerName, sharedText } =
   storeToRefs(boardStore);
-const sharedUrl = 'https://sanmoku-shikanai-narabe.netlify.app/';
 
 const routeToLobby = () => {
   router.push({ path: '/lobby' });

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { facebook, twitter, line } = useShareUrl();
-const sharedUrl = 'https://sanmoku-shikanai-narabe.netlify.app/';
+const { url: sharedUrl } = usePageTitle();
 const showDialog = ref(false);
 const size = 64;
 </script>
