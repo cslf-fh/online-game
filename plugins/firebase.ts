@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig().public;
@@ -18,7 +18,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const firebaseApp = initializeApp(firebaseConfig); // 初期化
 
-  //getAnalytics(firebaseApp);
+  getAnalytics(firebaseApp);
 
   const auth = getAuth();
   signInAnonymously(auth); // 匿名サインイン
